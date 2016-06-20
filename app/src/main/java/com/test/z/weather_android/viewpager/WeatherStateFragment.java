@@ -14,14 +14,12 @@ import com.test.z.weather_android.R;
  */
 public class WeatherStateFragment extends Fragment {
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.weathericon, container, false);
+        return inflater.inflate(R.layout.today_weather, container, false);
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
+
 }

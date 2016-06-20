@@ -38,8 +38,8 @@ public class SkyconView extends View {
         bgColor = a.getColor(R.styleable.custom_view_bgColor, this.bgColor);
 
         if (bgColor == 0) {
-            //bgColor = Color.alpha(0);
-            bgColor = Color.GREEN;
+            bgColor = Color.alpha(0);
+            //bgColor = Color.GREEN;
         }
     }
 

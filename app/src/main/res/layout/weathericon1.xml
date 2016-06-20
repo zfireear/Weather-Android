@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.test.z.weather_android.weatchericon.SunView
+    <com.test.z.weather_android.weatchericon.CloudThunderView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
