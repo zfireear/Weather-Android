@@ -30,6 +30,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView tvtemp;
     TextView tempscope;
 
+    TextView fweather;
+    TextView ftemp;
+    TextView fweek;
+    TextView fweather1;
+    TextView ftemp1;
+    TextView fweek1;
+    TextView fweather2;
+    TextView ftemp2;
+    TextView fweek2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +129,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tvhumidity = (TextView) findViewById(R.id.humidity);
         tvtemp = (TextView) findViewById(R.id.temp);
         tempscope = (TextView) findViewById(R.id.tempscope);
+
+        fweather = (TextView) findViewById(R.id.fweather);
+        ftemp = (TextView) findViewById(R.id.ftemp);
+        fweek = (TextView) findViewById(R.id.fweek);
+        fweather1 = (TextView) findViewById(R.id.fweather1);
+        ftemp1 = (TextView) findViewById(R.id.ftemp1);
+        fweek1 = (TextView) findViewById(R.id.fweek1);
+        fweather2 = (TextView) findViewById(R.id.fweather2);
+        ftemp2 = (TextView) findViewById(R.id.ftemp2);
+        fweek2 = (TextView) findViewById(R.id.fweek2);
     }
 
     @Override
@@ -143,7 +163,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void run() {
                         try {
-
                             ReUtil reUtil = new ReUtil();
                             reUtil.updateWeather("南海");
                             getTextView();
@@ -151,8 +170,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             tvtemp.setText(reUtil.temp + "℃");
                             tvhumidity.setText("湿度 " + reUtil.humidity);
                             tvlocation.setText(reUtil.tlocation);
+
                             reUtil.updateToday("南海");
                             tempscope.setText(reUtil.tempMax + "℃/" + reUtil.tempMin + "℃");
+
+                            reUtil.updateForecast("南海");
+                            ftemp.setText(reUtil.ftemp);
+                            fweather.setText(reUtil.fweather);
+                            fweek.setText(reUtil.fweek);
+                            ftemp1.setText(reUtil.ftemp1);
+                            fweather1.setText(reUtil.fweather1);
+                            fweek1.setText(reUtil.fweek1);
+                            ftemp2.setText(reUtil.ftemp2);
+                            fweather2.setText(reUtil.fweather2);
+                            fweek2.setText(reUtil.fweek2);
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
