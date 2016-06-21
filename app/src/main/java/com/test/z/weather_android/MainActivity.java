@@ -1,17 +1,21 @@
 package com.test.z.weather_android;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.test.z.weather_android.Util.ReUtil;
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         init();
+
     }
 
     private void init() {
@@ -109,9 +114,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.item1) {
+            getStatus("南海");
             viewPager.setCurrentItem(0);
+            freshWeather();
         } else if (id == R.id.item2) {
-            viewPager.setCurrentItem(1);
+            getStatus("广州");
+            viewPager.setCurrentItem(0);
+            freshWeather();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -146,35 +155,57 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         switch (id) {
             case R.id.action_search:
-
-                freshWeather();
-
+                final EditText editText = new EditText(MainActivity.this);
+                new AlertDialog.Builder(MainActivity.this).setTitle("请输入地名")
+                        .setView(editText)
+                        .setPositiveButton("确定",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,int id) {
+                                       String s=  editText.getText().toString();
+                                        if(!s.isEmpty()) {
+                                            getStatus(s);
+                                            freshWeather();
+                                        }
+                                    }
+                                })
+                        .setNegativeButton("取消",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        dialog.cancel();
+                                    }
+                                })
+                        .show();
                 break;
         }
         return true;
     }
 
+    ReUtil reUtil;
+
+    public void getStatus(String location){
+        reUtil = new ReUtil();
+        reUtil.updateWeather(location);
+        reUtil.updateToday(location);
+        reUtil.updateForecast(location);
+    }
 
     public void freshWeather() {
-        new Thread(new Runnable() {
+        Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            ReUtil reUtil = new ReUtil();
-                            reUtil.updateWeather("南海");
                             getTextView();
                             tvweather.setText(reUtil.weather);
                             tvtemp.setText(reUtil.temp + "℃");
                             tvhumidity.setText("湿度 " + reUtil.humidity);
                             tvlocation.setText(reUtil.tlocation);
 
-                            reUtil.updateToday("南海");
                             tempscope.setText(reUtil.tempMax + "℃/" + reUtil.tempMin + "℃");
 
-                            reUtil.updateForecast("南海");
                             ftemp.setText(reUtil.ftemp);
                             fweather.setText(reUtil.fweather);
                             fweek.setText(reUtil.fweek);
@@ -191,7 +222,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
             }
-        }).start();
+        };
+        handler.postDelayed(runnable, 1000);
     }
 
 
