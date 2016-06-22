@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ViewPager viewPager;
     private DrawerLayout drawerLayout;
     private TabLayout tabLayout;
-    String[] tltitle = {"Today", "Trend"};
+    String[] tltitle = {"Today", "Future Trend"};
 
     TextView tvlocation;
     TextView tvweather;
@@ -46,10 +46,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView fweek2;
 
     public ReUtil reUtil;
-
-    public ReUtil getReUtil() {
-        return reUtil;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
