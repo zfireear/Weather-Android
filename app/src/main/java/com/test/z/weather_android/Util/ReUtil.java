@@ -29,6 +29,11 @@ public class ReUtil {
     public static String tlocation;
     public static String tempMin;
     public static String tempMax;
+
+    public static String[] sfweather;
+    public static String[] sftemp;
+    public static String[] sfweek;
+
     public static String fweather;
     public static String ftemp;
     public static String fweek;
@@ -39,10 +44,11 @@ public class ReUtil {
     public static String ftemp2;
     public static String fweek2;
 
+
+
     WeatherApi weatherApi = WeatherApi.Factory.getInstance();
 
     public void updateWeather(final String location) {
-
         //realtime
         weatherApi.getRealtime(location).enqueue(
                 new Callback<WeatherInfo>() {
@@ -72,6 +78,7 @@ public class ReUtil {
                     public void onResponse(Call<WeatherInfo> call, Response<WeatherInfo> response) {
 
                         List<Forecast> forecast = response.body().getForecast();
+                        //single
                         fweather = forecast.get(0).getWeather();
                         ftemp = forecast.get(0).getTemp();
                         fweek = forecast.get(0).getWeek();
@@ -81,6 +88,16 @@ public class ReUtil {
                         fweather2 = forecast.get(2).getWeather();
                         ftemp2 = forecast.get(2).getTemp();
                         fweek2 = forecast.get(2).getWeek();
+                        //together
+                        sfweather = new String[6];
+                        sftemp = new String[6];
+                        sfweek = new String[6];
+                        for(int i=0; i<forecast.size() ;i++){
+                            sfweather[i] = forecast.get(i).getWeather();
+                            sftemp[i] = forecast.get(i).getTemp();
+                            sfweek[i] = forecast.get(i).getWeek();
+                        }
+
                     }
 
                     @Override

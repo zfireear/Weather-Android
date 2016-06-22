@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,13 +45,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView ftemp2;
     TextView fweek2;
 
+    public ReUtil reUtil;
+
+    public ReUtil getReUtil() {
+        return reUtil;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         init();
-
     }
 
     private void init() {
@@ -180,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    ReUtil reUtil;
+
 
     public void getStatus(String location){
         reUtil = new ReUtil();
@@ -188,6 +194,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         reUtil.updateToday(location);
         reUtil.updateForecast(location);
     }
+
+    public static String maxtemp;
 
     public void freshWeather() {
         Handler handler = new Handler();
@@ -199,7 +207,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void run() {
                         try {
                             getTextView();
-                            tvweather.setText(reUtil.weather);
+                            maxtemp = reUtil.weather;
+                            tvweather.setText(maxtemp);
                             tvtemp.setText(reUtil.temp + "℃");
                             tvhumidity.setText("湿度 " + reUtil.humidity);
                             tvlocation.setText(reUtil.tlocation);
@@ -216,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             fweather2.setText(reUtil.fweather2);
                             fweek2.setText(reUtil.fweek2);
 
+                            Log.d("getweekdata",reUtil.sfweather[5]);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
